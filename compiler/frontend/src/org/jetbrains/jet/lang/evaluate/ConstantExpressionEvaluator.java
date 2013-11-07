@@ -28,10 +28,7 @@ import org.jetbrains.jet.lang.resolve.BindingTrace;
 import org.jetbrains.jet.lang.resolve.DescriptorUtils;
 import org.jetbrains.jet.lang.resolve.calls.model.ResolvedCall;
 import org.jetbrains.jet.lang.resolve.calls.model.ResolvedValueArgument;
-import org.jetbrains.jet.lang.resolve.constants.ArrayValue;
-import org.jetbrains.jet.lang.resolve.constants.CompileTimeConstant;
-import org.jetbrains.jet.lang.resolve.constants.EnumValue;
-import org.jetbrains.jet.lang.resolve.constants.JavaClassValue;
+import org.jetbrains.jet.lang.resolve.constants.*;
 import org.jetbrains.jet.lang.types.JetType;
 
 import java.util.List;
@@ -85,11 +82,15 @@ public class ConstantExpressionEvaluator extends JetVisitor<CompileTimeConstant<
 
     @Override
     public CompileTimeConstant<?> visitQualifiedExpression(@NotNull JetQualifiedExpression expression, Void data) {
-        CompileTimeConstant<?> compileTimeConstant = trace.get(BindingContext.COMPILE_TIME_VALUE, expression);
-        if (compileTimeConstant != null) {
-            return compileTimeConstant;
-        }
+        JetExpression receiverExpression = expression.getReceiverExpression();
         JetExpression selectorExpression = expression.getSelectorExpression();
+        if (receiverExpression instanceof JetConstantExpression && selectorExpression instanceof JetCallExpression) {
+            CompileTimeConstant<?> constant = ConstantsPackage.propagateConstantValues(expression, trace, (JetCallExpression) selectorExpression);
+            if (constant != null) {
+                return constant;
+            }
+        }
+
         if (selectorExpression != null) {
             return selectorExpression.accept(this, null);
         }
