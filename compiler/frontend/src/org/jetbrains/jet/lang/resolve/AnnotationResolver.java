@@ -259,6 +259,10 @@ public class AnnotationResolver {
 
             @Override
             public CompileTimeConstant<?> visitCallExpression(@NotNull JetCallExpression expression, Void data) {
+                CompileTimeConstant<?> compileTimeConstant = super.visitCallExpression(expression, data);
+                if (compileTimeConstant != null) {
+                    return compileTimeConstant;
+                }
                 ResolvedCall<? extends CallableDescriptor> call =
                         trace.getBindingContext().get(BindingContext.RESOLVED_CALL, (expression).getCalleeExpression());
                 if (call != null) {
