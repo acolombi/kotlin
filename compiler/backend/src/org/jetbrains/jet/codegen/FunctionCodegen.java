@@ -119,11 +119,12 @@ public class FunctionCodegen extends ParentCodegenAwareImpl {
         }
 
         AnnotationCodegen.forMethod(mv, typeMapper).genAnnotations(functionDescriptor);
-        if (state.getClassBuilderMode() == ClassBuilderMode.LIGHT_CLASSES) return;
 
         generateParameterAnnotations(functionDescriptor, mv, jvmSignature);
 
         generateJetValueParameterAnnotations(mv, functionDescriptor, jvmSignature);
+
+        if (state.getClassBuilderMode() == ClassBuilderMode.LIGHT_CLASSES) return;
 
         if (isAbstractMethod(functionDescriptor, methodContext.getContextKind())) return;
 
