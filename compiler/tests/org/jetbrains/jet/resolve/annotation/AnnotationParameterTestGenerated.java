@@ -128,6 +128,11 @@ public class AnnotationParameterTestGenerated extends AbstractAnnotationParamete
             doTest("compiler/testData/resolveAnnotations/parameters/expressions/intrincics.kt");
         }
         
+        @TestMetadata("labeled.kt")
+        public void testLabeled() throws Exception {
+            doTest("compiler/testData/resolveAnnotations/parameters/expressions/labeled.kt");
+        }
+        
         @TestMetadata("long.kt")
         public void testLong() throws Exception {
             doTest("compiler/testData/resolveAnnotations/parameters/expressions/long.kt");
@@ -171,6 +176,11 @@ public class AnnotationParameterTestGenerated extends AbstractAnnotationParamete
         @TestMetadata("orOr.kt")
         public void testOrOr() throws Exception {
             doTest("compiler/testData/resolveAnnotations/parameters/expressions/orOr.kt");
+        }
+        
+        @TestMetadata("paranthesized.kt")
+        public void testParanthesized() throws Exception {
+            doTest("compiler/testData/resolveAnnotations/parameters/expressions/paranthesized.kt");
         }
         
         @TestMetadata("plus.kt")
