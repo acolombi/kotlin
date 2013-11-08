@@ -390,10 +390,6 @@ public class CallExpressionResolver {
                 expression.getOperationTokenNode(), selectorExpression, context);
         JetType selectorReturnType = selectorReturnTypeInfo.getType();
 
-        if (receiverExpression instanceof JetConstantExpression && selectorExpression instanceof JetCallExpression) {
-            ConstantsPackage.propagateConstantValues(expression, context.trace, (JetCallExpression) selectorExpression);
-        }
-
         //TODO move further
         if (!(receiverType instanceof NamespaceType) && expression.getOperationSign() == JetTokens.SAFE_ACCESS) {
             if (selectorReturnType != null && !selectorReturnType.isNullable() && !KotlinBuiltIns.getInstance().isUnit(selectorReturnType)) {
